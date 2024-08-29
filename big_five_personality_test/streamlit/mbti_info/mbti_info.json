@@ -1,0 +1,104 @@
+{
+    "INTJ": {
+        "group": "Analysts",
+        "role": "Architect",
+        "description": "Architects are imaginative and strategic thinkers, with a plan for everything.",
+        "link": "https://www.16personalities.com/intj-personality"
+    },
+    "INTP": {
+        "group": "Analysts",
+        "role": "Logician",
+        "description": "Logicians are innovative inventors with an unquenchable thirst for knowledge.",
+        "link": "https://www.16personalities.com/intp-personality"
+    },
+    "ENTJ": {
+        "group": "Analysts",
+        "role": "Commander",
+        "description": "Commanders are bold, imaginative, and strong-willed, always finding a way - or making one.",
+        "link": "https://www.16personalities.com/entj-personality"
+    },
+    "ENTP": {
+        "group": "Analysts",
+        "role": "Debater",
+        "description": "Debaters are curious and flexible thinkers who cannot resist an intellectual challenge.",
+        "link": "https://www.16personalities.com/entp-personality"
+    },
+
+
+    "INFJ": {
+        "group": "Diplomats",
+        "role": "Advocate",
+        "description": "Advocates are quiet visionaries, often serving as inspiring and tireless idealists.",
+        "link": "https://www.16personalities.com/infj-personality"
+    },
+    "INFP": {
+        "group": "Diplomats",
+        "role": "Mediator",
+        "description": "Mediators are poetic, kind, and altruistic people, always eager to help a good cause.",
+        "link": "https://www.16personalities.com/infp-personality"
+    },
+    "ENFJ": {
+        "group": "Diplomats",
+        "role": "Protagonist",
+        "description": "Protagonists are inspiring optimists, readily taking action to do what they feel is right.",
+        "link": "https://www.16personalities.com/enfj-personality"
+    },
+    "ENFP": {
+        "group": "Diplomats",
+        "role": "Campaigner",
+        "description": "Campaigners are enthusiastic, creative, and sociable free spirits, who can always find a reason to smile.",
+        "link": "https://www.16personalities.com/enfp-personality"
+    },
+
+    
+    "ISTJ": {
+        "group": "Sentinels",
+        "role": "Logistician",
+        "description": "Logisticians are practical and fact-minded individuals, whose reliability cannot be doubted.",
+        "link": "https://www.16personalities.com/istj-personality"
+    },
+    "ISFJ": {
+        "group": "Sentinels",
+        "role": "Defender",
+        "description": "Defenders are very dedicated and warm protectors, always ready to defend their loved ones.",
+        "link": "https://www.16personalities.com/isfj-personality"
+    },
+    "ESTJ": {
+        "group": "Sentinels",
+        "role": "Executive",
+        "description": "Executives are excellent organizers, unsurpassed at managing things - or people.",
+        "link": "https://www.16personalities.com/estj-personality"
+    },
+    "ESFJ": {
+        "group": "Sentinels",
+        "role": "Consul",
+        "description": "Consuls are very caring, social, community-minded people who are always eager to help.",
+        "link": "https://www.16personalities.com/esfj-personality"
+    },
+
+
+    "ISTP": {
+        "group": "Explorers",
+        "role": "Virtuoso",
+        "description": "Virtuosos are innovative and practical experimenters, masters of all kinds of tools.",
+        "link": "https://www.16personalities.com/istp-personality"
+    },
+    "ISFP": {
+        "group": "Explorers",
+        "role": "Adventurer",
+        "description": "Adventurers are flexible and charming, always ready to explore and experience something new.",
+        "link": "https://www.16personalities.com/isfp-personality"
+    },
+    "ESTP": {
+        "group": "Explorers",
+        "role": "Entrepreneur",
+        "description": "Entrepreneurs are savvy, energetic, and very perceptive people who truly enjoy living on the edge.",
+        "link": "https://www.16personalities.com/estp-personality"
+    },
+    "ESFP": {
+        "group": "Explorers",
+        "role": "Entertainer",
+        "description": "Entertainers are spontaneous, energetic, and enthusiastic people – life is never boring around them.",
+        "link": "https://www.16personalities.com/esfp-personality"
+    }
+}
