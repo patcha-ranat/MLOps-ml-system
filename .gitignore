@@ -1,2 +1,4 @@
 pyenv
 *.ipynb
+ml_model
+data-final.csv

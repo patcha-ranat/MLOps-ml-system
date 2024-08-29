@@ -37,3 +37,26 @@
 - Turbulance or Assertive (T/A)
     - **Turbulance:** turbulent individuals are self conscious and sensitive to stress. They are likely to experience a wide range of emotions and to be success driven, perfectionistic, and eager to improve.
     - **Assertive:** assertive people are self assured, even tempered and resistant to stress. They refuse to worry too much and do not push themselves too hard when it comes to achieving goals
+
+# Deployment
+```bash
+# docker build -t <image-name>:<optional-tag> <dockerfile-location-relative-with-current-workdir>
+docker build -t kde-mbti-streamlit big_five_personality_test/.
+
+# test running on local
+docker run -p 8501:8501 kde-mbti-streamlit
+
+# check http://localhost:8501
+
+# check files
+docker exec -it <container-id> bash
+
+docker stop <container-id>
+
+# push to docker hub
+# rename image
+docker tag kde-mbti-streamlit:latest patcharanat/kde-public-repo
+# see docker ui image tab, you will see another image name is the same as repo
+
+docker push patcharanat/kde-public-repo:latest
+```

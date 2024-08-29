@@ -2,24 +2,27 @@
 Streamlit App for Machine Learning Deployment (MBTI Inference)
 """
 
-import time
+import os
 import json
+import numpy as np
+import pickle
 import streamlit as st
 
 
-RELATIVE_PATH = "big_five_personality_test/streamlit/"
+RELATIVE_PATH = os.getenv("DOCKER_OPERATE", "big_five_personality_test/streamlit/")
 
+st.set_page_config(layout="wide")
 st.title("MBTI Machine Learning Inference 🚀")
-st.caption("powered by LightGBM, GCP Cloud Run, and ken🌚")
+st.caption("powered by scikit-learn, GCP Cloud Run, and ken🌚")
 
 st.header("What is MBTI 🤔")
 st.markdown("""
 The MBTI® assessment is designed to help people identify and gain some understanding around how they take in information and make decisions, the patterns of perception and judgment, as seen in normal, healthy behavior.
 """)
 
-st.subheader("Take 10 questions to get prediction of your MBTI 🥳")
+st.subheader("Take 12 questions to get prediction of your MBTI 🥳")
 st.caption("from the full test having approxiamately 94 questions 😱")
-st.caption("Model's Accuracy = xx.xx % / F1-Score = xx.xx %")
+st.caption("Model: Logistic Regression - [Accuracy = 43.77 % / F1-Score = 40.01 % / Baseline (Random Guess) = 3.125 %]")
 
 map_input_dict = {
     ":blue[1]": 1, 
@@ -28,73 +31,91 @@ map_input_dict = {
     ":orange[4]": 4, 
     ":red[5]": 5
 }
-    
+# read input list
+with open(f'{RELATIVE_PATH}models/input_format.json', encoding="utf8") as json_file:
+    input_format = json.load(json_file)
+qa_list = [qa_code for qa_code in input_format.keys()]
+
 with st.form("ml_input"):
     qa_1 = st.radio(
-        label="1. Question-1",
+        label=f"1.) {input_format[qa_list[0]]}",
         options=[":blue[1]", ":green[2]", "3", ":orange[4]", ":red[5]"],
         horizontal=True,
         index=None,
     )
 
     qa_2 = st.radio(
-        "2. Question-2",
+        label=f"2.) {input_format[qa_list[1]]}",
         options=[":blue[1]", ":green[2]", "3", ":orange[4]", ":red[5]"],
         horizontal=True,
         index=None,
     )
 
     qa_3 = st.radio(
-        "3. Question-3",
+        label=f"3.) {input_format[qa_list[2]]}",
         options=[":blue[1]", ":green[2]", "3", ":orange[4]", ":red[5]"],
         horizontal=True,
         index=None,
     )
 
     qa_4 = st.radio(
-        "4. Question-4",
+        label=f"4.) {input_format[qa_list[3]]}",
         options=[":blue[1]", ":green[2]", "3", ":orange[4]", ":red[5]"],
         horizontal=True,
         index=None,
     )
 
     qa_5 = st.radio(
-        "5. Question-5",
+        label=f"5.) {input_format[qa_list[4]]}",
         options=[":blue[1]", ":green[2]", "3", ":orange[4]", ":red[5]"],
         horizontal=True,
         index=None,
     )
 
     qa_6 = st.radio(
-        "6. Question-6",
+        label=f"6.) {input_format[qa_list[5]]}",
         options=[":blue[1]", ":green[2]", "3", ":orange[4]", ":red[5]"],
         horizontal=True,
         index=None,
     )
 
     qa_7 = st.radio(
-        "7. Question-7",
+        label=f"7.) {input_format[qa_list[6]]}",
         options=[":blue[1]", ":green[2]", "3", ":orange[4]", ":red[5]"],
         horizontal=True,
         index=None,
     )
 
     qa_8 = st.radio(
-        "8. Question-8",
+        label=f"8.) {input_format[qa_list[7]]}",
         options=[":blue[1]", ":green[2]", "3", ":orange[4]", ":red[5]"],
     horizontal=True,
         index=None,
     )
 
     qa_9 = st.radio(
-        "9. Question-9",
+        label=f"9.) {input_format[qa_list[8]]}",
         options=[":blue[1]", ":green[2]", "3", ":orange[4]", ":red[5]"],
         horizontal=True,
         index=None,
     )
     
     qa_10 = st.radio(
-        "10. Question-10",
+        label=f"10.) {input_format[qa_list[9]]}",
+        options=[":blue[1]", ":green[2]", "3", ":orange[4]", ":red[5]"],
+        horizontal=True,
+        index=None,
+    )
+
+    qa_11 = st.radio(
+        label=f"11.) {input_format[qa_list[11]]}",
+        options=[":blue[1]", ":green[2]", "3", ":orange[4]", ":red[5]"],
+        horizontal=True,
+        index=None,
+    )
+
+    qa_12 = st.radio(
+        label=f"12.) {input_format[qa_list[10]]}",
         options=[":blue[1]", ":green[2]", "3", ":orange[4]", ":red[5]"],
         horizontal=True,
         index=None,
@@ -102,28 +123,28 @@ with st.form("ml_input"):
 
     submitted = st.form_submit_button("Submit")
     if submitted:
-        raw_input = [qa_1, qa_2, qa_3, qa_4, qa_5, qa_6, qa_7, qa_8, qa_9, qa_10]
+        raw_input = [qa_1, qa_2, qa_3, qa_4, qa_5, qa_6, qa_7, qa_8, qa_9, qa_10, qa_11, qa_12]
         if None not in raw_input:
             input_data = [map_input_dict[choice] for choice in raw_input]
             with st.spinner("wait for it..."):
                 # TODO: change this to dynamic from inference
                 # pre-processing
-                # input = 
+                input_data = np.array(input_data).reshape(1, -1)
 
                 # load model and predict
-                time.sleep(5)
-                # model = pickle.load("model/mbti_lgbm.bin")
-                # labeler = pickle.load(model/labeler.pkl)
-                # raw_personality = model.predict(input)
-                # personality = labeler.inverse_transform(raw_personality)
-                personality = "ISFJ-T"
+                # time.sleep(5)
+                model = pickle.load(open(f"{RELATIVE_PATH}models/logistic_regression_mbti.bin", "rb"))
+                decoder = pickle.load(open(f"{RELATIVE_PATH}models/encoder.pkl", "rb"))
+                raw_personality = model.predict(input_data)
+                personality = str(decoder.inverse_transform(raw_personality))[2:-2]
+                # personality = "ISFJ-T"
                 st.balloons()
             st.success(f"Done! your MBTI is '{personality}' 🚀", icon="✅")
 
             # extract data
-            with open(f'{RELATIVE_PATH}mbti_info/letters_info.json') as json_file:
+            with open(f'{RELATIVE_PATH}mbti_info/letters_info.json', encoding="utf8") as json_file:
                 letters_info = json.load(json_file)
-            with open(f'{RELATIVE_PATH}mbti_info/mbti_info.json') as json_file:
+            with open(f'{RELATIVE_PATH}mbti_info/mbti_info.json', encoding="utf8") as json_file:
                 mbti_info = json.load(json_file)
 
             letter_1 = personality[0]
