@@ -26,7 +26,12 @@ Taking nearly 100 questions to know your MBTI could take a lot of time. How abou
     ```
 
 # 2. Model Development
-
+- Overall Process
+![mbti_overall_process](./docs/mbti_overall_process.png)
+- Overview Architecture
+![mbti_architecture_overview](./docs/mbti_architecture_overview.png)
+- Development Notebook
+    - [ML-Learning - mbti_ipip - Github Patcharanat](https://github.com/Patcharanat/ML-Learning/blob/master/mbti_ipip/model_dev.ipynb)
 
 
 # 3. Deployment
