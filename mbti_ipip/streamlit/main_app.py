@@ -9,7 +9,7 @@ import pickle
 import streamlit as st
 
 
-RELATIVE_PATH = os.getenv("DOCKER_OPERATE", "big_five_personality_test/streamlit/")
+RELATIVE_PATH = os.getenv("DOCKER_OPERATE", "mbti_ipip/streamlit/")
 
 st.set_page_config(layout="wide")
 st.title("MBTI Machine Learning Inference 🚀")

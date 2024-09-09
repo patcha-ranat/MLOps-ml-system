@@ -3,6 +3,8 @@
 
 *patcharanat p.*
 
+***Non-commercial Project***
+
 # Introduction
 Taking nearly 100 questions to know your MBTI could take a lot of time. How about knowing your MBTI within 12 questions ?? predicted by Machine Learning deployed with Streamlit on Azure Cloud
 
@@ -22,7 +24,7 @@ Taking nearly 100 questions to know your MBTI could take a lot of time. How abou
         - Contained application's picture contents
 - To run application for development or testing, please enable `pyenv` in root working directory and run this:
     ```bash
-    streamlit run main_app.py
+    streamlit run mbti_ipip/streamlit/main_app.py
     ```
 
 # 2. Model Development
@@ -32,11 +34,13 @@ Taking nearly 100 questions to know your MBTI could take a lot of time. How abou
 ![mbti_architecture_overview](./docs/mbti_architecture_overview.png)
 - Development Notebook
     - [ML-Learning - mbti_ipip - Github Patcharanat](https://github.com/Patcharanat/ML-Learning/blob/master/mbti_ipip/model_dev.ipynb)
-
+- Output
+![mbti_product1](./docs/mbti_product1.png)
+![mbti_product2](./docs/mbti_product2.png)
 
 # 3. Deployment
-- Currently, I deployed the application manually through CLI. You might need docker hub account, azure cloud account.
-- You might also need to change some parameter to match your account.
+- Currently, I deployed the application manually through CLI. You might need docker hub account, and azure cloud account.
+- You might also need to change some variables to match your account.
 - Extending project to CI/CD with Github Action (GHA) will be the next step in development.
 ```bash
 # docker build -t <image-name>:<optional-tag> <dockerfile-location-relative-to-current-workdir>
@@ -62,6 +66,9 @@ docker tag kde-mbti-streamlit:latest patcharanat/kde-public-repo
 docker push patcharanat/kde-public-repo:latest
 ```
 - preparing Streamlit to production, you can find more details at [Official Documentation from Streamlit](https://docs.streamlit.io/deploy/tutorials/docker)
+- The latest progress, I manually configured Azure Web App to deploy the app as docker image from docker hub on cloud. You can find more information about deployment here:
+    - [Pushing Docker Image to Docker Hub - Youtube - Shaw Talebi](https://youtu.be/pJ_nCklQ65w?si=C0T-OnEd_BbAvsdV&t=1035)
+    - [How to deploy and test docker container websites using Azure app service - Youtube - LetMeTechYou](https://youtu.be/Fl9AIKj8UAY?si=hnUq7S4ut8v7-zEj&t=228)
 
 # Appendix
 ## About Dataset
@@ -103,3 +110,4 @@ docker push patcharanat/kde-public-repo:latest
 - Turbulance or Assertive (T/A)
     - **Turbulance:** turbulent individuals are self conscious and sensitive to stress. They are likely to experience a wide range of emotions and to be success driven, perfectionistic, and eager to improve.
     - **Assertive:** assertive people are self assured, even tempered and resistant to stress. They refuse to worry too much and do not push themselves too hard when it comes to achieving goals
+---
