@@ -5,29 +5,40 @@
 
 ***Non-commercial Project***
 
-# Introduction
+## Introduction
 Taking nearly 100 questions to know your MBTI could take a lot of time. How about knowing your MBTI within 12 questions ?? predicted by Machine Learning deployed with Streamlit on Azure Cloud
 
-# 1. Getting Started
+## Table of Contents
+1. [Getting Started](#1-getting-started)
+2. [Model Deployment](#2-model-development)
+3. [Deployment](#3-deployment)
+4. [Appendix](#4-appendix)
+    - [About Dataset](#about-dataset)
+    - [Mapping Personalities IPIP to MBTI](#mapping-personalities-ipip-to-mbti)
+    - [MBTI Contents](#mbti-contents)
+
+## 1. Getting Started
+This sub-project is quite focused on data science methodology, including initiating a problem, how we use ML to solve the problem, and how we manipulate or label the data to meet the requirement. Even though, MLOps practices, especially ML model deployment, still play a crucial role to deliver developed ML as an usable product as a web service with docker container, streamlit, and Azure cloud Web App service.
+
 - Core component for the project consist of:
     - [Dockerfile](Dockerfile)
-        - package application into a docker container.
+        - containerize ML application.
     - streamlit/[requirements.txt](./streamlit/requirements.txt)
         - dependency of the application required in the container.
     - streamlit/[main_app.py](./streamlit/main_app.py)
         - Streamlit App (Web-based UI)
     - streamlit/models/*
-        - Contained ML model, Encoder/Decoder, and input questions used in Streamlit App
+        - Contained ML model, Encoder/Decoder, and list of input questions used in Streamlit App
     - streamlit/mbti_info/*
         - Contained application's text contents
     - streamlit/picture/*
         - Contained application's picture contents
-- To run application for development or testing, please enable `pyenv` in root working directory and run this:
+- To run application locally for development or testing, please enable `pyenv` in root working directory and run this:
     ```bash
     streamlit run mbti_ipip/streamlit/main_app.py
     ```
 
-# 2. Model Development
+## 2. Model Development
 - Overall Process
 ![mbti_overall_process](./docs/mbti_overall_process.png)
 - Overview Architecture
@@ -38,7 +49,7 @@ Taking nearly 100 questions to know your MBTI could take a lot of time. How abou
 ![mbti_product1](./docs/mbti_product1.png)
 ![mbti_product2](./docs/mbti_product2.png)
 
-# 3. Deployment
+## 3. Deployment
 - Currently, I deployed the application manually through CLI. You might need docker hub account, and azure cloud account.
 - You might also need to change some variables to match your account.
 - Extending project to CI/CD with Github Action (GHA) will be the next step in development.
@@ -70,8 +81,8 @@ docker push patcharanat/kde-public-repo:latest
     - [Pushing Docker Image to Docker Hub - Youtube - Shaw Talebi](https://youtu.be/pJ_nCklQ65w?si=C0T-OnEd_BbAvsdV&t=1035)
     - [How to deploy and test docker container websites using Azure app service - Youtube - LetMeTechYou](https://youtu.be/Fl9AIKj8UAY?si=hnUq7S4ut8v7-zEj&t=228)
 
-# Appendix
-## About Dataset
+## 4. Appendix
+### About Dataset
 - [Big Five Personality Test - Kaggle](https://www.kaggle.com/datasets/tunguz/big-five-personality-test)
 - [Local Data Dict](./data/codebook.txt)
 - [International Personality Item Pool](https://ipip.ori.org/)
@@ -80,7 +91,7 @@ docker push patcharanat/kde-public-repo:latest
 - [Interpreting Individual IPIP Scale Scores](https://ipip.ori.org/InterpretingIndividualIPIPScaleScores.htm)
 - [MBTI - Letters personalities explain](https://www.16personalities.com/articles/our-theory)
 
-## Mapping Personalities IPIP to MBTI
+### Mapping Personalities IPIP to MBTI
 - Factor I (EXT questions)
     - Surgency or Extraversion = Introversion or Extroversion (I/E)
 - Factor II (AGR questions)
@@ -92,7 +103,7 @@ docker push patcharanat/kde-public-repo:latest
 - Factor V (OPN questions)
     - Intellect or Imagination = Sensors or Intuitives (S/N)
 
-## MBTI Contents
+### MBTI Contents
 - Introversion or Extroversion (I/E)
     - **Extroversion:** E stands for Extraversion, and people who have this personality preference are energized by the outer world of people and things. They generally share their ideas verbally and “recharge” by being around other people.
     - **Introversion:** I stand for Introversion, and people with this personality preference are energized by their inner world. In contrast to people with preferences for Extraversion, Introverts use their energy interacting with people and things and gain energy by spending time alone and in their heads. They usually prefer to go through all their ideas and then share them out loud.

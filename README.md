@@ -1,91 +1,49 @@
 # MLOps - ML System
-*patcharanat p.*
+*Patcharanat p.*
 
 ## Introduction
 Starting an MLOps project is essential for organizations aiming to operationalize or productionize machine learning models to their own business. MLOps bridges the gap between data science and IT operations, ensuring that machine learning models are efficiently deployed, monitored, and maintained in a scalable production environment.
 
-This project aims to introduce the detailed in implementation of machine learning life cycle management and deployment processes bringing AI to real-world applications over AI development techniques and AI research.
+This project aims to introduce the implementation details of machine learning lifecycle management and deployment processes with sub-projects, emphasizing bringing AI to real-world applications over AI development techniques and researchs.
 
 ## Table of Contents
-1. [Installation and Development](#1-installation-and-development)
-2. [ML Workflows / Model Serving Pattern](#2-ml-workflows--model-serving-pattern)
-3. Model Performance Monitoring
-4. Automate pipeline Re-training Model
-5. CI/CD/CT (Continuous Training)
-6. ML Deployment Strategies
-7. [Conclusion](#7-conclusion)
-8. [References](#8-references)
+1. [Getting Started](#1-getting-started)
+2. [Projects and Development](#2-projects-and-development)
+3. [Conclusion](#3-conclusion)
+4. [References](#4-references)
 
-<!-- 3. [Model Performance Monitoring](#3-model-performance-monitoring) -->
-<!-- 4. [Automate pipeline Re-training Model](#4-automate-pipeline-re-training-model) -->
-<!-- 5. [CI/CD/CT (Continuous Training)](#5-cicdct-continuous-training) -->
-<!-- 6. [ML Deployment Strategies](#6-ml-deployment-strategies) -->
+## 1. Getting Started
+This repository contains multiple sub-projects related to MLOps practices (or data science and data engineering as required). Each project has their own comprehensive documentation focused on implementation rather than principles. You may find what to expect from each project in [2. Projects and Development](#2-projects-and-development) topic, and some note and research on MLOps in [***mlops_principle***](./docs/mlops_principle.md).
 
-## 1. Installation and Development
-1. Testing Environment
-    - In root working directory, there's an [requirements.txt](requirements.txt) for development environment which will not be used in deployment. But in each sub-directory will have a seperated `requirements.txt` for packaging app to a docker container (if required) which is crucial for each application.
-    - To use testing virtual environemnt, use git bash on windows, Mac's terminal, Linux
-    ```bash
-    python -m venv pyenv
-    # or python3, depends on your python installation in local machine
+To run projects in this repository, it's required to have some relevant dependencies on runtime. It's recommended to use a separate python environment, such as *venv* for installing [requirements.txt](requirements.txt) located in the root working directory to be able to run all the sub-projects on your local machine.
 
-    source pyenv/Scripts/activate
-    # for mac: source pyenv/script/bin/activate
+1. Python Environment
+    - In the root working directory, there's a [requirements.txt](requirements.txt) for development, containing python dependencies that are not all necessary in deployment. But instead, in each sub-directory will have a seperate `requirements.txt` for either setting up processses or containerization (if required) which is crucial for each project.
+    - To use virtual environemnt, use git bash on windows, Mac's terminal, or Linux CLI
+        ```bash
+        python -m venv pyenv
+        # or python3, depends on your python installation in local machine
 
-    # (pyenv)
-    pip install -r requirements.txt
-    ```
-2. Cloud Setting up
-    - TBC
+        source pyenv/Scripts/activate
+        # for mac: source pyenv/script/bin/activate
 
+        # (pyenv)
+        pip install -r requirements.txt
+        ```
+2. Cloud Infrastructure Setting up
+    - Some sub-projects are required to set up cloud resources. We will utilize ***Terraform*** as much as possible to reduce manual configuration and enhance reproducibility. If the project is required, the Terraform folder will be located in it, intended to manage it as a resource group for each project.
+    - However, some projects might either not be fully finished or not focus on using cloud resources. Terraform will be skipped, and all the manual steps will be specified in the documentation instead.
 
-## 2. ML Workflows / Model Serving Pattern
-| Model Learning   | Static Learning (Offline)           | Dynamic Learning (Online)                     |
-|------------------|-------------------------------------|-----------------------------------------------|
-| **Model Prediction** | | |
-| **Real-time Data (On-demand)**   | - Microservices                     | - Real-time Streaming Analysis                |
-|                  | - REST API                          | - Online Learning                             |
-| **Historical Data (Batch)** | - Forecast                          | - Automated ML Pipeline                       |
-|                  | - Batch Prediction                  |                                               |
+## 2. Projects and Development
+1. [MBTI-IPIP: Know your MBTI within 12 questions through ML model deployed with streamlit on Azure cloud](./mbti_ipip/README.md)
+    - This sub-project is quite focused on data science methodology, including initiating a problem, how we use ML to solve the problem, and how we manipulate or label the data to meet the requirement. Even though, MLOps practices, especially ML model deployment, still play a crucial role to deliver developed ML to be an usable product as a web service with docker container, streamlit, and Azure cloud Web App service.
+    - **Tech Stack**: Logistic Regression, Docker Container, Streamlit, Azure Cloud Web App
+    ![mbti_architecture_overview](./mbti_ipip/docs/mbti_architecture_overview.png)
+2. *In progress. . .*
 
-*Remark: More on [MLOps.org (Three Levels of ML Software)](https://ml-ops.org/content/three-levels-of-ml-software)*
+## 3. Conclusion
+I expected this project to be my POC workspace or sandbox for MLOps practices, how AI/ML/DL can be deployed on production in either machine learning pipelines or model serving patterns aspects. Hopefully, this somehow could benefit anyone who shares the same interests as me.
 
-### Relevant Projects
-- Static Learning - On-demand Prediction
-    - Microservices:
-        - [mbti_ipip - Know your MBTI within 12 questions through ML model deployed with streamlit on Azure cloud](./mbti_ipip/README.md)
-    - REST API
-- Static Learning - Batch Prediction
-    - Forecast
-    - Batch Prediction
-- Dynamic Learning - On-demand Prediction
-    - Real-time Streaming Analysis
-- Dynamic Learning - Batch Prediction
-    - Automated ML Pipeline
-
-
-## 3. Model Performance Monitoring
-*In progress*
-
-## 4. Automate pipeline Re-training Model
-*In progress*
-
-## 5. CI/CD/CT (Continuous Training)
-*In progress*
-
-## 6. ML Deployment Strategies
-*In progress*
-- Blue/Green
-- Shadow/Challenger
-- Canary
-- A/B
-- Multi-Armed Bandits
-
-## 7. Conclusion
-I expected this project to introduce MLOps practices of how AI/ML/DL can be deployed on production with automation either training pipelines or model serving services with different approaches. Hopefully, this somehow could give a sense to anyone who shares the same interest.
-
-Me, who's deeply interested in this area of knowledge but might not be as expert as anyone who's been working on this area, hoping my inspiration and ambition contributed to this as an open source project could return me a learning curve and encourage any organization that finds AI important to them find this topic is also.
-
-## 8. References
+## 4. References
 - [MLOps: Continuous delivery and automation pipelines in machine learning - Google Cloud](https://cloud.google.com/architecture/mlops-continuous-delivery-and-automation-pipelines-in-machine-learning#top_of_page)
 - [Machine Learning Operations - ml-ops.org](https://ml-ops.org/)
