@@ -6,10 +6,13 @@
     1. [Data: Data Engineering Pipelines](#1-data-data-engineering-pipelines)
     2. [Model: Machine Learning Pipelines](#2-model-machine-learning-pipelines)
     3. [Code: Deployment Pipelines](#3-code-deployment-pipelines)
-2. Model Performance Monitoring
-3. Automate pipeline Re-training Model
-4. CI/CD/CT (Continuous Training)
-5. ML Deployment Strategies
+2. [MLOps Principles](#2-mlops-principles)
+3. [CRISP-ML(Q)](#3-crisp-mlq)
+- Model Performance Monitoring
+- Automate pipeline Re-training Model
+- CI/CD/CT (Continuous Training)
+- ML Deployment Strategies
+- [References](#references)
 
 ## 1. Three Levels of ML Software
 *https://ml-ops.org/content/three-levels-of-ml-software*
@@ -161,19 +164,144 @@ In the following, we discuss Model Serving Patterns and Model Deployment Strateg
         - However, attention should be paid to possible constraints of the deployed artifacts such as the size of the artifact.
         ![infra-lambda](https://ml-ops.org/img/infra-lambda.jpg)
 
-## 2. Model Performance Monitoring
-*In progress*
+## 2. MLOps Principles
+*https://ml-ops.org/content/mlops-principles*
 
-## 3. Automate pipeline Re-training Model
-*In progress*
+The main focus of the “ML Operations” phase is to deliver the previously developed ML model in production by using established DevOps practices such as testing, versioning, continuous delivery, and monitoring.
 
-## 4. CI/CD/CT (Continuous Training)
-*In progress*
+SIG MLOps defines *"an optimal MLOps experience (as) one where Machine Learning assets are treated consistently with all other software assets within a CI/CD environment. Machine Learning models can be deployed alongside the services that wrap them and the services that consume them as part of a unified release process."*
 
-## 5. ML Deployment Strategies
-*In progress*
+By codifying these practices, we hope to accelerate the adoption of ML/AI in software systems and fast delivery of intelligent software. In the article, they described a set of important concepts in MLOps such as *Iterative-Incremental Development, Automation, Continuous Deployment, Versioning, Testing, Reproducibility, Monitoring*
+![mlops-loop-en](https://ml-ops.org/img/mlops-loop-en.jpg)
+
+### Automation
+To adopt MLOps, we see three levels of automation, starting from the initial level with manual model training and deployment, up to running both ML and CI/CD pipelines automatically.
+
+![mlops-phasen](https://ml-ops.org/img/mlops-phasen.jpg)
+
+1. **Manual process**: Rapid Application Development (RAD) such as jupyter notebook
+2. **ML pipeline automation**: automatic model training
+3. **CI/CD pipeline automation**: to perform fast and reliable ML model deployments in production (automatic build/test/deploy).
+
+**Summary of MLOps Stages**
+- **Development & Experimentation** -- ML algorithms, new ML models
+- **CI Pipeline** -- Build source code and run tests
+- **CD Pipeline** -- Deploy pipelines to the target environment
+- ~~Automated Triggering~~ **Automated ML Pipeline** -- Pipeline is automatically executed in production. Schedule or trigger are used
+- **ML Model CD** -- Model serving for prediction
+- **Monitoring** -- Collecting data about the model performance on live data
+
+**Summary of MLOps Components**
+| MLOps Setup Components     | Description                                                                                  |
+|----------------------------|----------------------------------------------------------------------------------------------|
+| Source Control              | Versioning the Code, Data, and ML Model artifacts.                                            |
+| Test & Build Services       | Using CI tools for (1) Quality assurance for all ML artifacts, and (2) Building packages and executables for pipelines. |
+| Deployment Services         | Using CD tools for deploying pipelines to the target environment.                            |
+| Model Registry              | A registry for storing already trained ML models.                                             |
+| Feature Store               | Preprocessing input data as features to be consumed in the model training pipeline and during the model serving. |
+| ML Metadata Store           | Tracking metadata of model training, for example model name, parameters, training data, test data, and metric results. |
+| ML Pipeline Orchestrator    | Automating the steps of the ML experiments.                                                  |
+
+### Continuous process
+- **Continuous Integration (CI)**: extends the testing and validating code and components by adding testing and validating data and models.
+- **Continuous Delivery (CD)**: concerns with delivery of an ML training pipeline that automatically deploys another the ML model prediction service.
+- **Continuous Training (CT)**: is unique to ML systems property, which automatically retrains ML models for re-deployment.
+- **Continuous Monitoring (CM)**: concerns with monitoring production data and model performance metrics, which are bound to business metrics.
+
+### Versioning
+- Model
+    - Model can be degraded over time.
+    - Model can be rollback in case of failure.
+- Data (DVC)
+    - Investigate Model Behavior
+    - Reproducibility
+
+### Loosely Coupled Architecture (Modularity)
+*"high performance [in software delivery] is possible with all kinds of systems, provided that systems—and the teams that build and maintain them — are loosely coupled. This key architectural property enables teams to easily test and deploy individual components or services even as the organization and the number of systems it operates grow—that is, it allows organizations to increase their productivity as they scale."*
+
+Regarding ML-based software systems, it can be more difficult to achieve loose coupling between machine learning components than for traditional software components. However, basic modularity can be achieved by structuring the machine learning project. To set up a standard project structure, we recommend using dedicated templates such as [Data Science Lifecycle Base Repo](https://github.com/dslp/dslp-repo-template), and etc.
+
+**Default Directory Structure**
+```
+├── .cloud              # for storing cloud configuration files and templates (e.g. ARM, Terraform, etc)
+├── .github
+│   ├── ISSUE_TEMPLATE
+│   │   ├── Ask.md
+│   │   ├── Data.Aquisition.md
+│   │   ├── Data.Create.md
+│   │   ├── Experiment.md
+│   │   ├── Explore.md
+│   │   └── Model.md
+│   ├── labels.yaml
+│   └── workflows
+├── .gitignore
+├── README.md
+├── code
+│   ├── datasets        # code for creating or getting datasets
+│   ├── deployment      # code for deploying models
+│   ├── features        # code for creating features
+│   └── models          # code for building and training models
+├── data                # directory is for consistent data placement. contents are gitignored by default.
+│   ├── README.md
+│   ├── interim         # storing intermediate results (mostly for debugging)
+│   ├── processed       # storing transformed data used for reporting, modeling, etc
+│   └── raw             # storing raw data to use as inputs to rest of pipeline
+├── docs
+│   ├── code            # documenting everything in the code directory (could be sphinx project for example)
+│   ├── data            # documenting datasets, data profiles, behaviors, column definitions, etc
+│   ├── media           # storing images, videos, etc, needed for docs.
+│   ├── references      # for collecting and documenting external resources relevant to the project
+│   └── solution_architecture.md    # describe and diagram solution design and architecture
+├── environments
+├── notebooks
+├── pipelines           # for pipeline orchestrators i.e. AzureML Pipelines, Airflow, Luigi, etc.
+├── setup.py            # if using python, for finding all the packages inside of code.
+└── tests               # for testing your code, data, and outputs
+    ├── data_validation
+    └── unit
+```
+
+Along with the MLOps principles, following the set of best practices should help reducing the “technical debt” of the ML project:
+
+| MLOps Best Practices | Data                                                                 | ML Model                                                              | Code                                             |
+|----------------------|----------------------------------------------------------------------|-----------------------------------------------------------------------|--------------------------------------------------|
+| Documentation         | 1) Data sources <br> 2) Decisions, how/where to get data <br> 3) Labelling methods | 1) Model selection criteria <br> 2) Design of experiments <br> 3) Model pseudo-code | 1) Deployment process <br> 2) How to run locally |
+| Project Structure     | 1) Data folder for raw and processed data <br> 2) A folder for data engineering pipeline <br> 3) Test folder for data engineering methods | 1) A folder that contains the trained model <br> 2) A folder for notebooks <br> 3) A folder for feature engineering <br> 4) A folder for ML model engineering | 1) A folder for bash/shell scripts <br> 2) A folder for tests <br> 3) A folder for deployment files (e.g Docker files) |
+
+## 3. CRISP-ML(Q)
+***CR**oss-**I**ndustry **S**tandard **P**rocess model for the development of **M**achine **L**earning applications with **Q**uality assurance methodology* **(CRISP-ML(Q))**
+
+CRISP-ML(Q) is a systematic process model for machine learning software development that creates an awareness of possible risks and emphasizes quality assurance to diminish these risks to ensure the ML project’s success.
+
+| CRISP-ML(Q) Phase                    | Tasks                                                                                                                                                                                                                 |
+|--------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Business and Data Understanding      | - Define business objectives <br> - Translate business objectives into ML objectives <br> - Collect and verify data <br> - Assess the project feasibility <br> - Create POC                                           |
+| Data Engineering                     | - Feature selection <br> - Data selection <br> - Class balancing <br> - Cleaning data (noise reduction, data imputation) <br> - Feature engineering (data construction) <br> - Data augmentation <br> - Data standardization |
+| ML Model Engineering                 | - Define quality measure of the model <br> - ML algorithm selection (baseline selection) <br> - Adding domain knowledge to specialize the model <br> - Model training <br> - Optional: applying transfer learning <br> - Model compression <br> - Ensemble learning <br> - Documenting the ML model and experiments |
+| ML Model Evaluation                  | - Validate model's performance <br> - Determine robustness <br> - Increase model's explainability <br> - Make a decision whether to deploy the model <br> - Document the evaluation phase                           |
+| Model Deployment                     | - Evaluate model under production conditions <br> - Assure user acceptance and usability <br> - Model governance <br> - Deploy according to the selected strategy (A/B testing, multi-armed bandits)                   |
+| Model Monitoring and Maintenance     | - Monitor the efficiency and efficacy of the model prediction serving <br> - Compare to the previously specified success criteria (thresholds) <br> - Retrain model if required <br> - Collect new data <br> - Perform labelling of the new data points <br> - Repeat tasks from the *Model Engineering* and *Model Evaluation* phases <br> - Continuous integration, training, and deployment of the model |
+
+
+---
+## Model Performance Monitoring
+*TBC*
+
+## Automate pipeline Re-training Model
+*TBC*
+
+## CI/CD/CT (Continuous Training)
+*TBC*
+
+## ML Deployment Strategies
+*TBD*
 - Blue/Green
 - Shadow/Challenger
 - Canary
 - A/B
 - Multi-Armed Bandits
+
+## References
+1. Three Levels of ML Software: https://ml-ops.org/content/three-levels-of-ml-software
+2. MLOps Principles: https://ml-ops.org/content/mlops-principles
+    - The Data Science Lifecycle Process Template: https://github.com/dslp/dslp-repo-template
