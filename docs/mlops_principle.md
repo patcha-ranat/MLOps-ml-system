@@ -8,6 +8,7 @@
     3. [Code: Deployment Pipelines](#3-code-deployment-pipelines)
 2. [MLOps Principles](#2-mlops-principles)
 3. [CRISP-ML(Q)](#3-crisp-mlq)
+4. [Designing Machine Learning Systems book - Chip Huyen, O'Reilly 2022]()
 - Model Performance Monitoring
 - Automate pipeline Re-training Model
 - CI/CD/CT (Continuous Training)
@@ -282,6 +283,15 @@ CRISP-ML(Q) is a systematic process model for machine learning software developm
 | Model Deployment                     | - Evaluate model under production conditions <br> - Assure user acceptance and usability <br> - Model governance <br> - Deploy according to the selected strategy (A/B testing, multi-armed bandits)                   |
 | Model Monitoring and Maintenance     | - Monitor the efficiency and efficacy of the model prediction serving <br> - Compare to the previously specified success criteria (thresholds) <br> - Retrain model if required <br> - Collect new data <br> - Perform labelling of the new data points <br> - Repeat tasks from the *Model Engineering* and *Model Evaluation* phases <br> - Continuous integration, training, and deployment of the model |
 
+## 4. Designing Machine Learning Systems book - Chip Huyen, O'Reilly 2022
+
+*This book is for anyone who wants to leverage ML to solve real-world problems. ML in this book refers to both deep learning and classical algorithms, with a leaning toward ML systems at scale, such as those seen at medium to large enterprises and fast-growing startups. Systems at a smaller scale tend to be less complex and might benefit less from the comprehensive approach laid out in this book.*
+
+- Github repo about the book: [dmls-book](https://github.com/chiphuyen/dmls-book?tab=readme-ov-file)
+- [Chapter summaries](https://github.com/chiphuyen/dmls-book/blob/main/summary.md)
+- [MLOps tools](https://github.com/chiphuyen/dmls-book/blob/main/mlops-tools.md)
+- [Resources](https://github.com/chiphuyen/dmls-book/blob/main/resources.md) for further exploration
+- A very short review of basic ML concepts: [Basic ML Review](https://github.com/chiphuyen/dmls-book/blob/main/basic-ml-review.md)
 
 ---
 ## Model Performance Monitoring
