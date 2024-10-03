@@ -7,12 +7,23 @@
     2. [Model: Machine Learning Pipelines](#2-model-machine-learning-pipelines)
     3. [Code: Deployment Pipelines](#3-code-deployment-pipelines)
 2. [MLOps Principles](#2-mlops-principles)
+    - [Automation](#automation)
+    - [Continuous Processes](#continuous-processes)
+    - [Versioning](#versioning)
+    - [Loosely Coupled Architecture (Modularity)](#loosely-coupled-architecture-modularity)
 3. [CRISP-ML(Q)](#3-crisp-mlq)
-4. [Designing Machine Learning Systems book - Chip Huyen, O'Reilly 2022]()
+4. [Designing Machine Learning Systems book - Chip Huyen, O'Reilly 2022](#4-designing-machine-learning-systems-book---chip-huyen-oreilly-2022)
+5. [ML Deployment Strategies](#5-ml-deployment-strategies)
+    1. [Shadow/Challenger](#1-shadowchallenger)
+    2. [A/B Testing Model](#2-ab-testing-model)
+    3. [Multi Armed Bandit](#3-multi-armed-bandit)
+    4. [Blue Green Deployment](#4-blue-green-deployment)
+    5. [Canary Deployment](#5-canary-deployment)
+    6. [Other model deployment strategies and techniques](#6-other-model-deployment-strategies-and-techniques)
+    7. [Comparison: which model release strategy to use](#7-comparison-which-model-release-strategy-to-use)
 - Model Performance Monitoring
 - Automate pipeline Re-training Model
 - CI/CD/CT (Continuous Training)
-- ML Deployment Strategies
 - [References](#references)
 
 ## 1. Three Levels of ML Software
@@ -203,7 +214,7 @@ To adopt MLOps, we see three levels of automation, starting from the initial lev
 | ML Metadata Store           | Tracking metadata of model training, for example model name, parameters, training data, test data, and metric results. |
 | ML Pipeline Orchestrator    | Automating the steps of the ML experiments.                                                  |
 
-### Continuous process
+### Continuous processes
 - **Continuous Integration (CI)**: extends the testing and validating code and components by adding testing and validating data and models.
 - **Continuous Delivery (CD)**: concerns with delivery of an ML training pipeline that automatically deploys another the ML model prediction service.
 - **Continuous Training (CT)**: is unique to ML systems property, which automatically retrains ML models for re-deployment.
@@ -270,6 +281,8 @@ Along with the MLOps principles, following the set of best practices should help
 | Project Structure     | 1) Data folder for raw and processed data <br> 2) A folder for data engineering pipeline <br> 3) Test folder for data engineering methods | 1) A folder that contains the trained model <br> 2) A folder for notebooks <br> 3) A folder for feature engineering <br> 4) A folder for ML model engineering | 1) A folder for bash/shell scripts <br> 2) A folder for tests <br> 3) A folder for deployment files (e.g Docker files) |
 
 ## 3. CRISP-ML(Q)
+*https://ml-ops.org/content/crisp-ml*
+
 ***CR**oss-**I**ndustry **S**tandard **P**rocess model for the development of **M**achine **L**earning applications with **Q**uality assurance methodology* **(CRISP-ML(Q))**
 
 CRISP-ML(Q) is a systematic process model for machine learning software development that creates an awareness of possible risks and emphasizes quality assurance to diminish these risks to ensure the ML project’s success.
@@ -293,7 +306,122 @@ CRISP-ML(Q) is a systematic process model for machine learning software developm
 - [Resources](https://github.com/chiphuyen/dmls-book/blob/main/resources.md) for further exploration
 - A very short review of basic ML concepts: [Basic ML Review](https://github.com/chiphuyen/dmls-book/blob/main/basic-ml-review.md)
 
----
+## 5. ML Deployment Strategies
+*https://neptune.ai/blog/model-deployment-strategies*
+
+Strategies allow us to evaluate the ML model performances, capabilities and discover issues concerning the model. A key point to keep in mind is that the strategies usually depend on the task and resources in hand. Some of the strategies can be a great resource but computationally expensive while some can get the job done with ease.
+
+Deployment strategies can be broken down into two categories:
+- Static deployment strategies: These are the strategies where the distribution of traffic or request are handled manually. Examples of this are shadow evaluation, A/B testing, Canary testing, Rolling deployment, Blue-green deployment et cetera. 
+- Dynamic deployment strategies: These are the strategies where the distribution of traffic or request are handled automatically. Example of this is Multi Arm Bandits.
+
+### 1. Shadow/Challenger
+- In shadow deployment or shadow mode, the new model is deployed with new features alongside the live model. The new deployed model in this case is known as a shadow model. The shadow model handles all the requests just like the live model except it is not released to the public.
+- In shadow evaluation, the request is sent to both the models running parallel to each other using two API endpoints. During the inference, predictions from both the models are computed and stored, but only the prediction from the live model is used in the application which is returned to the users.
+![shadow_deployment](./pictures/shadow_deployment.png)
+- **Methodology: champion vs challenger**
+    - The predicted values from both the live and shadow model are compared against the ground truth. Once the results are in hand, data scientists can decide whether to deploy the shadow model globally into production or not.
+    - But one can also use champion/challenger framework in a manner where multiple shadow models are tested and compared with the existing model. Essentially the model with the best accuracy or Key Performance Index (KPI) is selected and deployed. 
+- Advantages:
+    - Model evaluation is efficient.
+    - Both the models are running parallelly there is no impact on traffic.  
+- Disadvantages:
+    - Expensive because of the resources required to support the shadow model.
+    - Shadow deployment can be tedious, especially if you are concerned about different aspects of model performance like metrics comparison, latency, load testing, et cetera.
+- When to use it
+    - If you want to compare multiple models with each other then shadow testing is great, although tedious.
+
+### 2. A/B Testing Model
+- A/B testing is a data-based strategy method. It is used to evaluate two models namely A and B, to assess which one performs better in a controlled environment. It is primarily used in e-commerce websites and social media platforms. With A/B testing the data scientists can evaluate and choose the best design for the website based on the data received from the users.
+![ab_testing](./pictures/ab_testing.png)
+- **Methodology**
+    - In A/B the two models are set up parallelly with different features. The aim is to increase the conversion rate of a given model.
+    - In order to do that data scientist sets up a hypothesis. This assumption is proposed through an experiment, if the assumption passes the test it is accepted as fact and the model is accepted, otherwise, it’s rejected.
+    - **Hypothesis Testing**
+        1. **Null Hypothesis**: states that the phenomenon occurring in the model is purely out of chance and not because of a certain feature.
+        2. **Alternate Hypothesis**: challenges the null hypothesis by stating that the phenomenon occurring in the model is because of a certain feature.
+    - In hypothesis testing, the aim is to reject the null hypothesis by setting up experiments like the A/B testing and exposing the new model with a certain feature to a few users. The new model essentially is designed on an alternate hypothesis. If the alternate hypothesis is accepted and the null hypothesis is rejected then that feature is added and the new model is deployed globally.
+- Advantages:
+    - It is simple. 
+    - Yields quick results and helps in the elimination of the low performing model.
+- Disadvantages:
+    - Models can be unreliable if the complexity is increased. One should use A/B testing in the case of simple hypothesis testing. 
+- When to use
+    - if you have two models you can use A/B Testing.
+    - A/B testing is predominantly used for e-commerce, social media platforms, and online streaming platforms (well-reached user platform).
+
+### 3. Multi Armed Bandit
+- Multi-Armed Bandit or MAB is an advanced version of A/B testing. It is also inspired by reinforcement learning, and the idea is to explore and exploit the environment that maximizes the reward function.
+- The [multi-armed bandit](https://en.wikipedia.org/wiki/Multi-armed_bandit) problem is a classic reinforcement learning problem that exemplifies the exploration–exploitation tradeoff dilemma. In contrast to general RL, the selected actions in bandit problems do not affect the reward distribution of the arms. The name comes from imagining a gambler at a row of slot machines (sometimes known as "one-armed bandits"), who has to decide which machines to play, how many times to play each machine and in which order to play them, and whether to continue with the current machine or try a different machine.
+![multi_armed_bandit](./pictures/multi_armed_bandit.png)
+- **Medthodology**
+    - MAB heavily depends on two concepts: exploration and exploitation.
+        - **Exploration:** It is a concept where the model explores the statistically significant results, as what we saw in A/B testing. The prime focus of A/B testing is to find or discover conversion rates of the two models. 
+        - **Exploitation:** It is a concept where the algorithm uses a greedy approach to maximize conversion rates using the information it gained during exploring.
+    - MAB is very flexible compared to the A/B testing. It can work with more than two models at a given time, this increases the rate of conversion. The algorithm continuously logs the KPI score of each model based on the success with respect to the route from which the request was made. This allows the algorithm to update its score of which is best.
+- Advantages:
+    - With exploring and exploiting the MAB offers adaptive testing.
+    - Resources are not wasted like in A/B testing. 
+    - Faster and efficient way of testing. 
+- Disadvantages:
+    - It is expensive because exploiting takes a lot of computing power which can be economically expensive. 
+- When to use
+    - MAB is very helpful for scenarios where the conversion rate is all you care about and where the time to make a decision is small. For example, optimizing offers or discounts on a product for a limited period. 
+
+### 4. Blue Green Deployment
+![blue_green_deployment](./pictures/blue_green_deployment.png)
+- Blue-green deployment strategies involve two production environments instead of just models. The blue environment consists of the live model whereas the green environment consists of the new version of the model.
+- **Methodology**
+    - In Blue-green deployment, the two identical environments consist of the same database, containers, virtual machines, same configuration et cetera. Keep in mind that setting up an environment can be expensive so usually, some components like a database are shared between the two.
+    - The Blue environment which contains the original model is live and keeps servicing requests while the Green environment acts as a staging environment for a new version of the model. It is subjected to deployment and final stages of testing against the real data to ensure that it performs well and is ready to deploy to production. Once the testing is successfully completed ensuring that all the bugs and issues are rectified the new model is made live. 
+    - Once this model is made live, the traffic is diverted from the blue environment to the green environment. In most cases, the blue environment serves as a backup, in case something goes wrong the request can be rerouted to the blue model.
+- Advantages:
+    - It ensures application availability round the clock.
+    - Rollbacks are easy because you can quickly divert the traffic to the blue environment in case of any issues. 
+    - Since both environments are independent of each other, deployment risk is less.
+- Disadvantages:
+    - It is cost expensive since both models require separate environments.
+- When to use
+    - Your application cannot afford downtime.
+
+### 5. Canary Deployment
+- The canary deployment aims to deploy the new version of the model by gradually increasing the number of users. Unlike the previous strategies that we’ve seen where the new model is either hidden from the public or a small control group is set up, the canary deployment strategy uses the real users to test the new model. As a result, bugs and issues can be detected before the model is deployed globally for all the users.
+![canary_deployment](./pictures/canary_deployment.png)
+- **Methdology**
+    - Similar to other deployment strategies in canary deployment, the new model is tested alongside the current live model but here the new model is tested on a few users to check its reliability, errors, performance et cetera.
+    - The number of users can be increased or decreased based on the testing requirements. If the model is successful in the testing phase then the model can be rolled out and if it is not then it can be rolled back with no downtime but only a number of users will be exposed to the new model.
+    - Canary deployment strategy can be broken down into three steps:
+        1. Design a new model and route a small sample of users’ requests to the new model.
+        2. Check for bugs, efficiency, reports, and issues in the new model, if found then perform a rollback.
+        3. Repeat steps one and two until all errors and issues are resolved, before routing all traffic to the new model.
+- Advantages:
+    - Cheaper compared to Blue-Green deployment.
+    - Ease to test the new model against real data.
+    - Zero downtime. 
+    - In case of failure, the model could be easily rolled back to the current version.
+- Disadvantages:
+    - Rollouts are easy but slow.
+    - Since the testing takes place against the real data with few users, proper monitoring must be in place so in case of failure the users are effectively routed to the live version.
+- When to use
+    - Canary deployment strategy must be used when the model is to be evaluated against real-world real-time data. Also, it has advantages over A/B testing since it can take a long time to gather enough data from the user to find a statistically significant result. Canary deployment can do this in hours.
+
+### 6. Other model deployment strategies and techniques
+- **Feature Flag**
+    - Feature flag is a technique rather than a strategy that allows developers to push or integrate code into the main branch. The idea here is to keep the feature dormant until it is ready. This allows developers to collaborate on different ideas and iterations. Once the feature is finalized it can be activated and deployed.
+    - As mentioned earlier feature flag is a technique so this can be used in combination with any deployment techniques mentioned earlier.
+- **Rolling Deployment**
+    - Rolling deployment is a strategy that gradually updates and replaces the older version of the model. This deployment occurs in a running instance, it does not involve staging or even private development.
+    - Advantage: It is faster than a blue/green deployment because there are no environmental restrictions.
+    - Disadvantage: Although it is quicker, rollbacks can be difficult if further updates fail.
+- **Recreate Strategy**
+    - Recreate is a simple strategy where the live version of the model is shut down and then the new version is deployed.
+    - Advantages: Easy and simple set-up. The entire environment is completely renewed.
+    - Disadvantage: Negative impact on users since it suffers from downtime as well as rebooting.
+
+### 7. Comparison: which model release strategy to use
+There can be various metrics that one can use to determine which strategy will suit them the best. But it mostly depends on the project complexity and resource availability. The following comparison table gives some idea about when to use which strategy.
+![compare_deployment_strategies](./pictures/compare_deployment_strategies.png)
+
 ## Model Performance Monitoring
 *TBC*
 
@@ -303,15 +431,10 @@ CRISP-ML(Q) is a systematic process model for machine learning software developm
 ## CI/CD/CT (Continuous Training)
 *TBC*
 
-## ML Deployment Strategies
-*TBD*
-- Blue/Green
-- Shadow/Challenger
-- Canary
-- A/B
-- Multi-Armed Bandits
-
 ## References
 1. Three Levels of ML Software: https://ml-ops.org/content/three-levels-of-ml-software
 2. MLOps Principles: https://ml-ops.org/content/mlops-principles
     - The Data Science Lifecycle Process Template: https://github.com/dslp/dslp-repo-template
+3. CRISP-ML(Q). The ML Lifecycle Process: https://ml-ops.org/content/crisp-ml
+4. Model Deployment Strategies - Neptune.ai: https://neptune.ai/blog/model-deployment-strategies
+    - [Multi-armed bandit - Wikipedia](https://en.wikipedia.org/wiki/Multi-armed_bandit)
