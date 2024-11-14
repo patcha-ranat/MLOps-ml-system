@@ -13,7 +13,8 @@ This project aims to introduce the implementation details of machine learning li
 4. [References](#4-references)
 
 ## 1. Getting Started
-This repository contains multiple sub-projects related to MLOps practices (or data science and data engineering as required). Each project has their own comprehensive documentation focused on implementation rather than principles. You may find what to expect from each project in [2. Projects and Development](#2-projects-and-development) topic, and some note and research on MLOps in [***mlops_principle***](./docs/mlops_principle.md).
+This repository contains multiple sub-projects related to MLOps practices (or data science and data engineering as required). Each project has their own comprehensive documentation focused on implementation rather than principles. You may find what to expect from each project in [2. Projects and Development](#2-projects-and-development) topic, and some note and research on MLOps in:
+- [MLOps Note & Research](./docs/mlops_principle.md)
 
 To run projects in this repository, it's required to have some relevant dependencies on runtime. It's recommended to use a separate python environment, such as *venv* for installing [requirements.txt](requirements.txt) located in the root working directory to be able to run all the sub-projects on your local machine.
 
@@ -39,10 +40,12 @@ To run projects in this repository, it's required to have some relevant dependen
     - This sub-project is quite focused on data science methodology, including initiating a problem, how we use ML to solve the problem, and how we manipulate or label the data to meet the requirement. Even though, MLOps practices, especially ML model deployment, still play a crucial role to deliver developed ML to be an usable product as a web service with docker container, streamlit, and Azure cloud Web App service.
     - **Tech Stack**: Logistic Regression, Docker Container, Streamlit, Azure Cloud Web App
     ![mbti_architecture_overview](./mbti_ipip/docs/mbti_architecture_overview.png)
+    ![mbti_product1](./mbti_ipip/docs/mbti_product1.png)
+    ![mbti_product2](./mbti_ipip/docs/mbti_product2.png)
 2. *In progress. . .*
 
 ## 3. Conclusion
-I expected this project to be my POC workspace or sandbox for MLOps practices, how AI/ML/DL can be deployed on production in either machine learning pipelines or model serving patterns aspects. Hopefully, this somehow could benefit anyone who shares the same interests as me.
+I expected this project to be my POC workspace or sandbox for MLOps practices, how AI/ML/DL can be deployed on production in either machine learning pipelines or model serving patterns aspects. Hopefully, this somehow could benefit anyone who shares the same learning path.
 
 ## 4. References
 - [MLOps: Continuous delivery and automation pipelines in machine learning - Google Cloud](https://cloud.google.com/architecture/mlops-continuous-delivery-and-automation-pipelines-in-machine-learning#top_of_page)
