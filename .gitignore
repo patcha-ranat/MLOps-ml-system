@@ -1,4 +1,13 @@
+# python environment
 pyenv
+
+# archive testing 
 *.ipynb
+_command.sh
 ml_model
 data-final.csv
+
+# terraform secret
+terraform.tfvars
+.terraform*
+terraform.tfstate*
