@@ -13,7 +13,7 @@ RELATIVE_PATH = os.getenv("DOCKER_OPERATE", "mbti_ipip/streamlit/")
 
 st.set_page_config(layout="wide")
 st.title("MBTI Machine Learning Inference 🚀")
-st.caption("powered by scikit-learn, GCP Cloud Run, and ken🌚")
+st.caption("powered by scikit-learn, Azure App Service")
 
 st.header("What is MBTI 🤔")
 st.markdown("""
