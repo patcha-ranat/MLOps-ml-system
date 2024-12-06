@@ -22,10 +22,35 @@ variable "resource_group_name" {
   default = "kmlops-resource-group"
 }
 
-# list of available region
-# https://learn.microsoft.com/th-th/industry/sustainability/sustainability-data-solutions-fabric/deploy-availability
-# https://www.azurespeed.com/Information/AzureRegions
 variable "location" {
   description   = "region"
   sensitive     = true
+}
+
+variable "service_plan_os_type" {
+  default = "Linux"
+}
+
+variable "service_plan_sku_name" {
+  description = "recommend 'F1', 'B1', 'P0V3', 'P1V3'"
+  default = "F1"
+}
+
+variable "web_app_name" {
+  default = "kmlops-ipip-mbti-azure"
+}
+
+variable "web_app_docker_image_name" {
+  description = "docker_image:tag"
+  default = "patcharanat/kde-public-repo:v3"
+}
+
+variable "web_app_docker_registry_url" {
+  description = "Fixed for docker hub, may vary by registry provider"
+  default = "https://index.docker.io"
+}
+
+variable "web_app_always_on" {
+  description = "'false' required for sku 'F1'"
+  default = false
 }
