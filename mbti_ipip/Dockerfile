@@ -2,6 +2,7 @@ FROM python:3.10.6-slim
 
 WORKDIR /app
 
+# Set relative path used in steamlit app
 ENV DOCKER_OPERATE=""
 
 COPY /streamlit .

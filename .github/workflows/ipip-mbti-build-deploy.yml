@@ -17,6 +17,7 @@ on:
         - private
 
 env:
+  TEMP_IMAGE_NAME : kmlops-mbti-streamlit:v${{ inputs.imageVersion }}
   IMAGE_NAME: ${{ vars.DOCKERHUB_USERNAME }}/kde-${{ inputs.targetRepo }}-repo:v${{ inputs.imageVersion }}
     
 jobs:
@@ -33,11 +34,10 @@ jobs:
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
       - name: Build and push
-        uses: docker/build-push-action@v6
-        with:
-          push: true
-          tags: ${{ env.IMAGE_NAME }}
-          file: ./mbti_ipip/Dockerfile
+        run: |
+          docker build -t ${{ env.TEMP_IMAGE_NAME }} mbti_ipip/.
+          docker tag ${{ env.TEMP_IMAGE_NAME }} ${{ env.IMAGE_NAME }}
+          docker push ${{ env.IMAGE_NAME }}
 
   deploy:
     runs-on: ubuntu-latest
