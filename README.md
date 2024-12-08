@@ -20,7 +20,16 @@ To run projects in this repository, it's required to have some relevant dependen
 
 1. Python Environment
     - In the root working directory, there's a [requirements.txt](requirements.txt) for development, containing python dependencies that are not all necessary in deployment. But instead, in each sub-directory will have a seperate `requirements.txt` for either setting up processses or containerization (if required) which is crucial for each project.
-    - To use virtual environemnt, use git bash on windows, Mac's terminal, or Linux CLI
+    - To automate setting up python virtual environment, use git bash on windows, Mac's terminal, or Linux CLI
+        ```bash
+        make venv
+
+        source pyenv/Scripts/activate
+        # for mac: source pyenv/script/bin/activate
+
+        make install
+        ```
+    - To manually set python virtual environemnt for each project (avoid dependencies conflict)
         ```bash
         python -m venv pyenv
         # or python3, depends on your python installation in local machine
@@ -28,12 +37,17 @@ To run projects in this repository, it's required to have some relevant dependen
         source pyenv/Scripts/activate
         # for mac: source pyenv/script/bin/activate
 
-        # (pyenv)
-        pip install -r requirements.txt
+        # (pyenv) TODO: replace with path to specific project
+        pip install -r <project-directory/requirements.txt>
+        ```
+    - To reset python environment, please run this command:
+        ```bash
+        # delete 'pyenv' file
+        make clean
         ```
 2. Cloud Infrastructure Setting up
-    - Some sub-projects are required to set up cloud resources. We will utilize ***Terraform*** as much as possible to reduce manual configuration and enhance reproducibility. If the project is required, the Terraform folder will be located in it, intended to manage it as a resource group for each project.
-    - However, some projects might either not be fully finished or not focus on using cloud resources. Terraform will be skipped, and all the manual steps will be specified in the documentation instead.
+    
+    Some sub-projects are required to set up cloud resources. We will utilize ***Terraform*** as much as possible to reduce manual configuration and enhance reproducibility. If the project is required, the Terraform folder will be located in it, intended to manage it as a resource group for each project.
 
 ## 2. Projects and Development
 1. [MBTI-IPIP: Know your MBTI within 12 questions through ML model deployed with streamlit on Azure cloud](./mbti_ipip/README.md)
