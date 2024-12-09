@@ -1,9 +1,17 @@
 terraform {
+  required_version = "~> 1.5.3"
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = "=4.12.0"
+      version = "~> 4.12.0"
     }
+  }
+  backend "azurerm" {
+    # Variables not allowed
+    resource_group_name  = "tfstate"
+    storage_account_name = "tfstatesakmlops"
+    container_name       = "tfstatesckmlops"
+    key                  = "terraform.tfstate"
   }
 }
 
