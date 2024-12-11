@@ -49,6 +49,8 @@ jobs:
 
       - name: Install Terraform
         uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.5.3"
 
       - name: Terraform Init
         run: teraform -chdir=mbti_ipip/terraform init -no-color
