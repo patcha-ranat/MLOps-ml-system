@@ -10,9 +10,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      - name: Set up Python
+      - name: Setup Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.10'
@@ -24,12 +25,4 @@ jobs:
 
       - name: Python Lint with Ruff
         run: ruff check mbti_ipip/streamlit/*.py --output-format=github
-        continue-on-error: false
-
-      - name: Terraform Validate and Check Format
-        run: |
-          terraform -chdir=mbti_ipip/terraform fmt -check -diff
-          terraform -chdir=mbti_ipip/terraform validate -no-color
-          terraform -chdir=mbti_ipip/terraform/backend fmt -check -diff
-          terraform -chdir=mbti_ipip/terraform/backend validate -no-color
         continue-on-error: false

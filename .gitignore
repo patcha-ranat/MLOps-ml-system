@@ -11,3 +11,6 @@ data-final.csv
 terraform.tfvars
 .terraform*
 terraform.tfstate*
+
+# local cache
+.ruff_cache

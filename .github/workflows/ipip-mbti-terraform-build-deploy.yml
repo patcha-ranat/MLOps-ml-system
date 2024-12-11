@@ -16,6 +16,10 @@ on:
         - public
         - private
 
+env:
+  TEMP_IMAGE_NAME : kmlops-mbti-streamlit:v${{ inputs.imageVersion }}
+  IMAGE_NAME: ${{ vars.DOCKERHUB_USERNAME }}/kde-${{ inputs.targetRepo }}-repo:v${{ inputs.imageVersion }}
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -47,8 +51,19 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Azure login
+        uses: azure/login@v2
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
       - name: Install Terraform
         uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.5.3"
+
+      - name: Terraform Check Format
+        run: terraform -chdir=mbti_ipip/terraform fmt -check -diff
+        continue-on-error: false
 
       - name: Terraform Init
         run: teraform -chdir=mbti_ipip/terraform init -no-color
