@@ -58,7 +58,7 @@ jobs:
 
       - name: Azure Prepare Access Key
         id: azure_access_key
-        run: az storage account keys list --resource-group 'kmlops-tfstate' --account-name 'tfstatesakmlops' --query '[0].value' -o tsv
+        run: echo "ACCOUNT_KEY=$(az storage account keys list --resource-group 'kmlops-tfstate' --account-name 'tfstatesakmlops' --query '[0].value' -o tsv)" >> "$GITHUB_OUTPUT"
 
       - name: Install Terraform
         uses: hashicorp/setup-terraform@v3
@@ -71,7 +71,7 @@ jobs:
 
       - name: Terraform Init
         env:
-          ARM_ACCESS_KEY: ${{ steps.azure_access_key.outputs }}
+          ARM_ACCESS_KEY: ${{ steps.azure_access_key.outputs.ACCOUNT_KEY }}
         run: terraform -chdir=mbti_ipip/terraform init -no-color
 
       - name: Terraform Validate
