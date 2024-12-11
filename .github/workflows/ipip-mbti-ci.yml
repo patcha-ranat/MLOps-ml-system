@@ -1,0 +1,35 @@
+name: ipip-mbti-ci
+
+on:
+  pull_request:
+    branches:
+      - 'main'
+
+jobs:
+  test-lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Python Lint with Ruff
+        run: ruff check mbti_ipip/streamlit/*.py --output-format=github
+        continue-on-error: false
+
+      - name: Terraform Validate and Check Format
+        run: |
+          terraform -chdir=mbti_ipip/terraform fmt -check -diff
+          terraform -chdir=mbti_ipip/terraform validate -no-color
+          terraform -chdir=mbti_ipip/terraform/backend fmt -check -diff
+          terraform -chdir=mbti_ipip/terraform/backend validate -no-color
+        continue-on-error: false

@@ -7,3 +7,4 @@ seaborn==0.13.2
 lightgbm==4.5.0
 numpy==1.26.4
 streamlit==1.38.0
+ruff==0.8.2

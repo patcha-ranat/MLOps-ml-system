@@ -1,0 +1,63 @@
+name: ipip-mbti-terraform-build-deploy
+
+on:
+  workflow_dispatch:
+    inputs:
+      imageVersion:
+        description: 'Image Version'
+        required: true
+        default: 1.0.0
+      targetRepo:
+        description: 'Target Repo'
+        required: true
+        default: 'public'
+        type: choice
+        options:
+        - public
+        - private
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_EMAIL }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+
+      - name: Build and push
+        run: |
+          docker build -t ${{ env.TEMP_IMAGE_NAME }} mbti_ipip/.
+          docker tag ${{ env.TEMP_IMAGE_NAME }} ${{ env.IMAGE_NAME }}
+          docker push ${{ env.IMAGE_NAME }}
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    env:
+      TF_VAR_subscription_id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      TF_VAR_client_id: ${{ secrets.AZURE_CLIENT_ID }}
+      TF_VAR_client_secret: ${{ secrets.AZURE_CLIENT_SECRET }}
+      TF_VAR_tenant_id: ${{ secrets.AZURE_TENANT_ID }}
+      TF_VAR_location: ${{ secrets.AZURE_LOCATION }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Terraform
+        uses: hashicorp/setup-terraform@v3
+
+      - name: Terraform Init
+        run: teraform -chdir=mbti_ipip/terraform init -no-color
+
+      - name: Terraform Validate
+        run: terraform -chdir=mbti_ipip/terraform validate -no-color
+
+      - name: Terraform Plan
+        run: terraform -chdir=mbti_ipip/terraform plan -no-color
+
+      - name: Terraform Apply
+        run: terraform -chdir=mbti_ipip/terraform apply -auto-approve
