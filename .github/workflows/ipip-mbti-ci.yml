@@ -34,8 +34,12 @@ jobs:
 
       - name: Terraform Validate and Check Format
         run: |
+          terraform -chdir=mbti_ipip/terraform init
+          terraform -chdir=mbti_ipip/terraform/backend init
+
           terraform -chdir=mbti_ipip/terraform fmt -check -diff
           terraform -chdir=mbti_ipip/terraform validate -no-color
+          
           terraform -chdir=mbti_ipip/terraform/backend fmt -check -diff
           terraform -chdir=mbti_ipip/terraform/backend validate -no-color
         continue-on-error: false
