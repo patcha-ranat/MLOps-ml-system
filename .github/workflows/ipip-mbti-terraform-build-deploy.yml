@@ -16,6 +16,10 @@ on:
         - public
         - private
 
+env:
+  TEMP_IMAGE_NAME : kmlops-mbti-streamlit:v${{ inputs.imageVersion }}
+  IMAGE_NAME: ${{ vars.DOCKERHUB_USERNAME }}/kde-${{ inputs.targetRepo }}-repo:v${{ inputs.imageVersion }}
+
 jobs:
   build:
     runs-on: ubuntu-latest
