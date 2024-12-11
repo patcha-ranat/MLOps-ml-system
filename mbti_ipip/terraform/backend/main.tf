@@ -18,10 +18,14 @@ provider "azurerm" {
   tenant_id       = var.tenant_id
 }
 
+# Resource Group
+
 resource "azurerm_resource_group" "tfstate" {
   name     = var.resource_group_name
   location = var.location
 }
+
+# Backend Storage
 
 resource "azurerm_storage_account" "tfstate" {
   name                            = var.storage_account_name

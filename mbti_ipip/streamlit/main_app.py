@@ -4,8 +4,8 @@ Streamlit App for Machine Learning Deployment (MBTI Inference)
 
 import os
 import json
-import numpy as np
 import pickle
+import numpy as np
 import streamlit as st
 
 
@@ -22,17 +22,13 @@ The MBTI® assessment is designed to help people identify and gain some understa
 
 st.subheader("Take 12 questions to get prediction of your MBTI 🥳")
 st.caption("from the full test having approxiamately 94 questions 😱")
-st.caption("Model: Logistic Regression - [Accuracy = 43.77 % / F1-Score = 40.01 % / Baseline (Random Guess) = 3.125 %]")
+st.caption(
+    "Model: Logistic Regression - [Accuracy = 43.77 % / F1-Score = 40.01 % / Baseline (Random Guess) = 3.125 %]"
+)
 
-map_input_dict = {
-    ":blue[1]": 1, 
-    ":green[2]": 2, 
-    "3": 3, 
-    ":orange[4]": 4, 
-    ":red[5]": 5
-}
+map_input_dict = {":blue[1]": 1, ":green[2]": 2, "3": 3, ":orange[4]": 4, ":red[5]": 5}
 # read input list
-with open(f'{RELATIVE_PATH}models/input_format.json', encoding="utf8") as json_file:
+with open(f"{RELATIVE_PATH}models/input_format.json", encoding="utf8") as json_file:
     input_format = json.load(json_file)
 qa_list = [qa_code for qa_code in input_format.keys()]
 
@@ -89,7 +85,7 @@ with st.form("ml_input"):
     qa_8 = st.radio(
         label=f"8.) {input_format[qa_list[7]]}",
         options=[":blue[1]", ":green[2]", "3", ":orange[4]", ":red[5]"],
-    horizontal=True,
+        horizontal=True,
         index=None,
     )
 
@@ -99,7 +95,7 @@ with st.form("ml_input"):
         horizontal=True,
         index=None,
     )
-    
+
     qa_10 = st.radio(
         label=f"10.) {input_format[qa_list[9]]}",
         options=[":blue[1]", ":green[2]", "3", ":orange[4]", ":red[5]"],
@@ -123,7 +119,20 @@ with st.form("ml_input"):
 
     submitted = st.form_submit_button("Submit")
     if submitted:
-        raw_input = [qa_1, qa_2, qa_3, qa_4, qa_5, qa_6, qa_7, qa_8, qa_9, qa_10, qa_11, qa_12]
+        raw_input = [
+            qa_1,
+            qa_2,
+            qa_3,
+            qa_4,
+            qa_5,
+            qa_6,
+            qa_7,
+            qa_8,
+            qa_9,
+            qa_10,
+            qa_11,
+            qa_12,
+        ]
         if None not in raw_input:
             input_data = [map_input_dict[choice] for choice in raw_input]
             with st.spinner("wait for it..."):
@@ -133,7 +142,9 @@ with st.form("ml_input"):
 
                 # load model and predict
                 # time.sleep(5)
-                model = pickle.load(open(f"{RELATIVE_PATH}models/logistic_regression_mbti.bin", "rb"))
+                model = pickle.load(
+                    open(f"{RELATIVE_PATH}models/logistic_regression_mbti.bin", "rb")
+                )
                 decoder = pickle.load(open(f"{RELATIVE_PATH}models/encoder.pkl", "rb"))
                 raw_personality = model.predict(input_data)
                 personality = str(decoder.inverse_transform(raw_personality))[2:-2]
@@ -142,9 +153,13 @@ with st.form("ml_input"):
             st.success(f"Done! your MBTI is '{personality}' 🚀", icon="✅")
 
             # extract data
-            with open(f'{RELATIVE_PATH}mbti_info/letters_info.json', encoding="utf8") as json_file:
+            with open(
+                f"{RELATIVE_PATH}mbti_info/letters_info.json", encoding="utf8"
+            ) as json_file:
                 letters_info = json.load(json_file)
-            with open(f'{RELATIVE_PATH}mbti_info/mbti_info.json', encoding="utf8") as json_file:
+            with open(
+                f"{RELATIVE_PATH}mbti_info/mbti_info.json", encoding="utf8"
+            ) as json_file:
                 mbti_info = json.load(json_file)
 
             letter_1 = personality[0]
@@ -155,14 +170,20 @@ with st.form("ml_input"):
             personality_short = personality[:-2]
 
             # fill in details about personality
-            st.image(f"{RELATIVE_PATH}picture/{personality_short.lower()}.png", caption="MBTI Character")
+            st.image(
+                f"{RELATIVE_PATH}picture/{personality_short.lower()}.png",
+                caption="MBTI Character",
+            )
             st.write(f"""
                 - **Group**: {mbti_info.get(personality_short).get("group")}
                 - **Role**: {mbti_info.get(personality_short).get("role")}
                 - **Summary**:
                     - {mbti_info.get(personality_short).get("description")}
             """)
-            st.link_button(":blue[More about your MBTI]", mbti_info.get(personality_short).get("link"))
+            st.link_button(
+                ":blue[More about your MBTI]",
+                mbti_info.get(personality_short).get("link"),
+            )
             st.subheader(f"Personality Detail: {personality} 🌟")
             st.markdown(f"""
                 - 📍 {letters_info.get(letter_1)}
@@ -179,6 +200,12 @@ with st.form("ml_input"):
 # appendix
 columns = st.columns(2)
 with columns[0]:
-    st.link_button(":green[Take the Full Test from Official Site. 📊]", "https://www.16personalities.com/free-personality-test")
+    st.link_button(
+        ":green[Take the Full Test from Official Site. 📊]",
+        "https://www.16personalities.com/free-personality-test",
+    )
 with columns[1]:
-    st.link_button("Check Out for other Personalities 🌎", "https://www.16personalities.com/personality-types")
+    st.link_button(
+        "Check Out for other Personalities 🌎",
+        "https://www.16personalities.com/personality-types",
+    )
