@@ -47,6 +47,7 @@ jobs:
       TF_VAR_client_secret: ${{ secrets.AZURE_CLIENT_SECRET }}
       TF_VAR_tenant_id: ${{ secrets.AZURE_TENANT_ID }}
       TF_VAR_location: ${{ secrets.AZURE_LOCATION }}
+      ARM_ACCESS_KEY: ${{ secrets.AZURE_ACCOUNT_KEY }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -56,9 +57,9 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      - name: Azure Prepare Access Key
-        id: azure_access_key
-        run: echo "ACCOUNT_KEY=$(az storage account keys list --resource-group 'kmlops-tfstate' --account-name 'tfstatesakmlops' --query '[0].value' -o tsv)" >> "$GITHUB_OUTPUT"
+      # - name: Azure Prepare Access Key
+      #   id: azure_access_key
+      #   run: echo "ACCOUNT_KEY=$(az storage account keys list --resource-group 'kmlops-tfstate' --account-name 'tfstatesakmlops' --query '[0].value' -o tsv)" >> "$GITHUB_OUTPUT"
 
       - name: Install Terraform
         uses: hashicorp/setup-terraform@v3
@@ -70,8 +71,6 @@ jobs:
         continue-on-error: false
 
       - name: Terraform Init
-        env:
-          ARM_ACCESS_KEY: ${{ steps.azure_access_key.outputs.ACCOUNT_KEY }}
         run: terraform -chdir=mbti_ipip/terraform init -no-color
 
       - name: Terraform Validate
