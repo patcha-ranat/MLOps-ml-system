@@ -54,3 +54,15 @@ variable "web_app_always_on" {
   description = "'false' required for sku 'F1'"
   default     = false
 }
+
+variable "registry_username" {
+  type        = string
+  description = "Docker Hub Email"
+  sensitive   = true
+}
+
+variable "registry_password" {
+  type        = string
+  description = "Docker Hub Email"
+  sensitive   = true
+}

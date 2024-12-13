@@ -48,6 +48,8 @@ jobs:
       TF_VAR_tenant_id: ${{ secrets.AZURE_TENANT_ID }}
       TF_VAR_location: ${{ secrets.AZURE_LOCATION }}
       ARM_ACCESS_KEY: ${{ secrets.AZURE_ACCOUNT_KEY }}
+      TF_VAR_registry_username: ${{ secrets.DOCKERHUB_EMAIL }}
+      TF_VAR_registry_password: ${{ secrets.DOCKERHUB_PASSWORD }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -81,3 +83,11 @@ jobs:
 
       - name: Terraform Apply
         run: terraform -chdir=mbti_ipip/terraform apply -auto-approve
+
+      - name: Echo Results
+        run: |
+          echo 'input image version:  ${{ inputs.imageVersion }}'
+          echo 'input image repo:  ${{ inputs.targetRepo }}'
+
+      - name: Azure logout
+        run: az logout

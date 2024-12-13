@@ -51,8 +51,10 @@ resource "azurerm_linux_web_app" "web_app" {
 
   site_config {
     application_stack {
-      docker_image_name   = var.web_app_docker_image_name
-      docker_registry_url = var.web_app_docker_registry_url
+      docker_image_name        = var.web_app_docker_image_name
+      docker_registry_url      = var.web_app_docker_registry_url
+      docker_registry_username = var.registry_username
+      docker_registry_password = var.registry_password
     }
 
     always_on = var.web_app_always_on

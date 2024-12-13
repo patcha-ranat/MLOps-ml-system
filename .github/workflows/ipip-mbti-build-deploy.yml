@@ -62,5 +62,4 @@ jobs:
           echo 'output URL: ${{ steps.deploy-to-webapp.outputs.webapp-url }}'
 
       - name: Azure logout
-        run: |
-          az logout
+        run: az logout
