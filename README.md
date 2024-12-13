@@ -51,9 +51,9 @@ To run projects in this repository, it's required to have some relevant dependen
 
 ## 2. Projects and Development
 1. [MBTI-IPIP: Know your MBTI within 12 questions through ML model deployed with streamlit on Azure cloud](./mbti_ipip/README.md)
-    - This sub-project is quite focused on data science methodology, including initiating a problem, how we use ML to solve the problem, and how we manipulate or label the data to meet the requirement. Even though, MLOps practices, especially ML model deployment, still play a crucial role to deliver developed ML to be an usable product as a web service with docker container, streamlit, and Azure cloud Web App service.
-    - **Tech Stack**: Logistic Regression, Docker Container, Streamlit, Azure Cloud Web App
-    ![mbti_architecture_overview](./mbti_ipip/docs/mbti_architecture_overview.png)
+    - This sub-project is quite also focused on data science methodology besides from MLOps, including initiating a problem, how we use ML to solve the problem, and how we wrangle and label the data to meet the requirement. Even though MLOps practices, especially ML model deployment, still play a crucial role to deliver developed ML as an usable product as a web service with docker container, streamlit, and Azure cloud Web App service.
+    - **Tools**: Logistic Regression, Docker, Docker Hub, Streamlit, Azure Web App Service, Terraform CI/CD
+    ![mbti_ipip_kmlops_overview](./mbti_ipip/docs/kmlops_overview.png)
     ![mbti_product1](./mbti_ipip/docs/mbti_product1.png)
     ![mbti_product2](./mbti_ipip/docs/mbti_product2.png)
 2. *In progress. . .*
