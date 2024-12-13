@@ -50,9 +50,13 @@ To run projects in this repository, it's required to have some relevant dependen
     Some sub-projects are required to set up cloud resources. We will utilize ***Terraform*** as much as possible to reduce manual configuration and enhance reproducibility. If the project is required, the Terraform folder will be located in it, intended to manage it as a resource group for each project.
 
 ## 2. Projects and Development
-1. [MBTI-IPIP: Know your MBTI within 12 questions through ML model deployed with streamlit on Azure cloud](./mbti_ipip/README.md)
-    - This sub-project is quite also focused on data science methodology besides from MLOps, including initiating a problem, how we use ML to solve the problem, and how we wrangle and label the data to meet the requirement. Even though MLOps practices, especially ML model deployment, still play a crucial role to deliver developed ML as an usable product as a web service with docker container, streamlit, and Azure cloud Web App service.
-    - **Tools**: Logistic Regression, Docker, Docker Hub, Streamlit, Azure Web App Service, Terraform CI/CD
+1. [MBTI-IPIP: Discover Your MBTI in 12 Questions with an ML Model Deployed via Streamlit on Azure Cloud Using Docker and Terraform CI/CD Pipelines](./mbti_ipip/README.md)
+    - This sub-project emphasizes not only MLOps but also data science methodology. It covers initiating a problem, applying ML to address it, and wrangling and labeling data to meet the requirements. While MLOps practices, particularly ML model deployment, remain essential for delivering a functional web service, this is achieved using Docker containers, Streamlit, and Azure Web App Service.
+    - In this sub-project, we achieved the following:
+        - **Leveraged semi-supervised learning** to utilize simple Machine Learning algorithms effectively.
+        - **Developed a containerized ML application** using Streamlit and Docker.
+        - **Provisioned Azure cloud resources** for ML deployment with a Terraform remote backend.
+        - **Deployed the ML application on Azure** using Azure Web App Service, Azure CLI, and CI/CD pipelines with Terraform.
     ![mbti_ipip_kmlops_overview](./mbti_ipip/docs/kmlops_overview.png)
     ![mbti_product1](./mbti_ipip/docs/mbti_product1.png)
     ![mbti_product2](./mbti_ipip/docs/mbti_product2.png)

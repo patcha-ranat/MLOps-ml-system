@@ -1,5 +1,5 @@
 # MBTI - IPIP
-*Know your MBTI within 12 questions through ML model deployed with streamlit on Azure cloud*
+*Discover Your MBTI in 12 Questions with an ML Model Deployed via Streamlit on Azure Cloud Using Docker and Terraform CI/CD Pipelines*
 
 *patcharanat p.*
 
@@ -7,7 +7,7 @@
 
 ## Introduction
 
-Taking nearly 100 questions to know your MBTI could take a lot of time. How about knowing your MBTI within 12 questions? predicted by Machine Learning deployed with Streamlit on Azure Cloud.
+Taking nearly 100 questions to know your MBTI could take a lot of time. How about knowing your MBTI within 12 questions? predicted by Machine Learning deployed via Streamlit on Azure Cloud with Terraform CI/CD pipeline.
 
 ![kmlops_overview](./docs/kmlops_overview.png)
 
@@ -19,10 +19,13 @@ Taking nearly 100 questions to know your MBTI could take a lot of time. How abou
 ## Table of Contents
 
 1. [Getting Started](#1-getting-started)
-2. [Model Development](#2-model-development)
+2. [ML Model and Application Development](#2-ml-model-and-application-development)
 3. [Authentication](#3-authentication)
 4. [Deployment](#4-deployment)
-5. [Appendix](#5-appendix)
+    - 4.1 [Azure CLI and CI/CD Pipeline](#41-azure-cli-and-cicd-pipeline)
+    - 4.2 [Azure Terraform and CI/CD Pipeline](#42-azure-terraform-and-cicd-pipeline)
+5. [Conclusion](#5-conclusion)
+6. [Appendix](#6-appendix)
     - [About Dataset](#about-dataset)
     - [Mapping Personalities IPIP to MBTI](#mapping-personalities-ipip-to-mbti)
     - [MBTI Contents](#mbti-contents)
@@ -59,35 +62,42 @@ Taking nearly 100 questions to know your MBTI could take a lot of time. How abou
 
 ## 1. Getting Started
 
-This sub-project is quite also focused on data science methodology besides from MLOps, including initiating a problem, how we use ML to solve the problem, and how we wrangle and label the data to meet the requirement. Even though MLOps practices, especially ML model deployment, still play a crucial role to deliver developed ML as an usable product as a web service with docker container, streamlit, and Azure cloud Web App service.
+This sub-project emphasizes not only MLOps but also data science methodology. It covers initiating a problem, applying ML to address it, and wrangling and labeling data to meet the requirements. While MLOps practices, particularly ML model deployment, remain essential for delivering a functional web service, this is achieved using Docker containers, Streamlit, and Azure Web App Service.
 
-- Core component for the project consist of:
-    - [Dockerfile](Dockerfile)
-        - containerize ML application.
-    - streamlit/[requirements.txt](./streamlit/requirements.txt)
-        - dependency of the application required in the container.
-    - streamlit/[main_app.py](./streamlit/main_app.py)
-        - Streamlit App (Web-based UI)
-    - streamlit/models/*
-        - Contained ML model, Encoder/Decoder, and list of input questions used in Streamlit App
-    - streamlit/mbti_info/*
-        - Contained application's text contents
-    - streamlit/picture/*
-        - Contained application's picture contents
-    - terrform/*
-        - Code for deployment on cloud
-- To run application locally for development, demo or testing, please enable `pyenv` in root working directory before and then run this:
-    ```bash
-    # workdir .
-    streamlit run mbti_ipip/streamlit/main_app.py
-    ```
+To run application locally for development, demo or testing, please enable `pyenv` in root working directory before, and then run this:
+```bash
+# workdir .
+streamlit run mbti_ipip/streamlit/main_app.py
+```
 
-## 2. Model Development
+## 2. ML Model and Application Development
 
 ![kmlops_dev_process](./docs/kmlops_dev_process.png)
 
+### 2.1 ML Model Development
+
 For ML Model Development Please refer to another associate project:
 - [ML-Sandbax - mbti_ipip - GitHub patcha-ranat](https://github.com/patcha-ranat/ML-Sandbox/blob/main/mbti_ipip/model_dev.ipynb)
+
+### 2.2 ML Application Development
+
+Documentation do not cover Streamlit application development, since it depends on individual designs. But you can review through the following relevant components:
+- [Dockerfile](Dockerfile)
+    - containerize ML application.
+- streamlit/[requirements.txt](./streamlit/requirements.txt)
+    - dependency of the application required in the container.
+- streamlit/[main_app.py](./streamlit/main_app.py)
+    - Streamlit App (Web-based UI code)
+- streamlit/models/*
+    - Contained ML model, Encoder/Decoder, and list of input questions used in Streamlit App
+- streamlit/mbti_info/*
+    - Contained ML application's text contents
+- streamlit/picture/*
+    - Contained ML application's picture contents
+
+References:
+- [Deploy Streamlit using Docker - Official Streamlit Docs](https://docs.streamlit.io/deploy/tutorials/docker)
+- [Streamlit API Reference - Official Streamlit Docs](https://docs.streamlit.io/develop/api-reference)
 
 ## 3. Authentication
 
@@ -112,7 +122,7 @@ In Azure Cloud, there are multiple authentication methods that you can choose to
 
 ***Service Principal*** (SP) is similar to *Service Account* in GCP. It's intended to have least permissions to interact with a resource according to security purpose. We will enable SP for provisioning cloud resources through Terraform or Azure CLI. To create SP, you can achieve it through Azure Portal (Web UI) or through Azure CLI (`az`).
 
-### 1. Creating Service Principal with Azure CLI
+### 3.1 Creating Service Principal with Azure CLI
 - first we'll need to login through `az`
 
     ```bash
@@ -144,7 +154,7 @@ In Azure Cloud, there are multiple authentication methods that you can choose to
     ```
     We will futher use this output either in Terraform or Azure CLI for account impersonation
 
-### 2. Creating Service Principal with Azure Portal
+### 3.2 Creating Service Principal with Azure Portal
 - Creating SP
     - `Microsoft Entra ID (formerly Azure Active Directory (Azure AD))` >> `App registrations` >> *create SP*
     - `App registrations` >> newly created SP >> `Certificates & secrets`
@@ -166,8 +176,8 @@ References:
 ## 4. Deployment
 
 I included 2 approaches of deployment in this sub-project:
-1. Azure CLI and CI/CD Pipeline
-2. Terraform and CI/CD Pipeline
+1. [Azure CLI and CI/CD Pipeline](#41-azure-cli-and-cicd-pipeline)
+2. [Azure Terraform and CI/CD Pipeline](#42-azure-terraform-and-cicd-pipeline)
 
 ### 4.1 Azure CLI and CI/CD Pipeline
 
@@ -218,7 +228,6 @@ docker push <dockerhub-username>/<repo-name>:<tag>
 ```
 
 - In before revised version, I configure Azure app service in Azure cloud manually. please refer to references below to deploy on cloud as online application through Azure Web UI (Azure Portal).
-- To prepare Streamlit app for production, you can find more details at [Official Documentation from Streamlit](https://docs.streamlit.io/deploy/tutorials/docker)
 
 References:
 - [Pushing Docker Image to Docker Hub - Youtube - Shaw Talebi](https://youtu.be/pJ_nCklQ65w?si=C0T-OnEd_BbAvsdV&t=1035)
@@ -433,7 +442,16 @@ References:
     - [Detail for using `.tfvars` - Official Terraform Docs](https://developer.hashicorp.com/terraform/language/values/variables#variable-definitions-tfvars-files)
     - [Specifying Terraform file in directories for execution (`-chdir`) - Official Terraform Docs](https://developer.hashicorp.com/terraform/cli/commands#switching-working-directory-with-chdir)
 
-## 5. Appendix
+## 5. Conclusion
+
+In this sub-project, we achieved the following:
+- **Leveraged semi-supervised learning** to utilize simple Machine Learning algorithms effectively.
+- **Developed a containerized ML application** using Streamlit and Docker.
+- **Provisioned Azure cloud resources** for ML deployment with a Terraform remote backend.
+- **Deployed the ML application on Azure** using Azure Web App Service, Azure CLI, and CI/CD pipelines with Terraform.
+
+## 6. Appendix
+
 ### About Dataset
 - [Big Five Personality Test - Kaggle](https://www.kaggle.com/datasets/tunguz/big-five-personality-test)
 - [Local Data Dict](./data/codebook.txt)
